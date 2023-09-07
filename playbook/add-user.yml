@@ -1,0 +1,43 @@
+- hosts: all
+  vars:
+    - user: 'cloudru'
+  remote_user: root
+  gather_facts: no
+
+  tasks:
+  - name: Add a new user
+    user:
+      name: "{{ item }}"
+      password: {{ encrypted_password }}
+    with_items: "{{ users }}"
+
+  - name: Enable Pubkey Authentication
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      regexp: '^PubkeyAuthentication'
+      line: 'PubkeyAuthentication yes'
+      state: present
+    notify:
+      - restart ssh
+
+  - name: Disable Root Login
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      regexp: '^PermitRootLogin'
+      line: 'PermitRootLogin no'
+      state: present
+    notify:
+       - restart ssh
+
+  - name: Add public keys for the new user
+    authorized_key:
+      user: "{{ item }}"
+      key: "{{ lookup('file', item + '.key.pub') }}"
+    with_items: "{{ users }}"
+
+
+  handlers:
+  - name: restart ssh
+    service:
+      name=sshd
+      state=restarted
