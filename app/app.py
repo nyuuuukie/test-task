@@ -42,6 +42,9 @@ class simpleServerHandler(BaseHTTPRequestHandler):
         uuid = os.getenv("UUID")
         self.wfile.write(f"$UUID: {uuid}".encode("utf-8"))
 
+    def req_health(self):
+        self.send_response(200)
+
     def req_unknown(self):
         self.send_response(400, "Bad request")
 
@@ -54,6 +57,8 @@ class simpleServerHandler(BaseHTTPRequestHandler):
             self.req_author()
         elif self.path == '/id':
             self.req_id()
+        elif self.path == '/health':
+            self.req_health()
         else:
             self.req_unknown()
 
