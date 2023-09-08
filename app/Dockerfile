@@ -1,13 +1,18 @@
-# Dockerfile
-# Необходимо написать Dockerfile для полученного приложения в соответствии с принятыми в сообществе best-practice.
+# Необходимо написать Dockerfile для полученного приложения 
+# в соответствии с принятыми в сообществе best-practice.
 
-# Полученный скрипт и Dockerfile к нему положить в папку /app
+# docker build -f Dockerfile -t http-app:latest .
+# docker run -p 5001:8000 http-app
 
 FROM Python:3.11.3
 
 LABEL Maintainer='Ilnur T.'
 
+RUN mkdir /app
 WORKDIR /app
-COPY app.py ./
+ADD app.py /app/
 
-CMD [ 'python3', './app.py' ]
+EXPOSE 8000
+
+ENTRYPOINT [ '/sbin/tini', '--', 'python3' ]
+CMD [ './app.py' ]
