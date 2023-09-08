@@ -1,0 +1,57 @@
+# Далее необходимо написать манифест для запуска приложения в Kubernetes:
+# 
+# [x] В отдельном неймспейсе в виде Deployment
+# [o] C 3 репликами
+# [o] Cервисом типа ClusterIP (default type)
+# [x] Реализовать readiness- и liveness- пробы. 
+# [o] В переменную UUID должен подставляться уникальный идентификатор пода в кластере.
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: http-app-service
+spec:
+  selector:
+    app: http-app
+  ports:
+  - name: http
+    port: 8000
+    targetPort: 8000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: http-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: http-app
+  template:
+    metadata:
+      labels:
+        app: http-app
+    spec:
+      containers:
+      - name: http-app
+        image: http-app:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8000
+        env:
+        - name: UUID
+          valueFrom:
+          fieldRef:
+            fieldPath: metadata.uid
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10
