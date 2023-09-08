@@ -1,43 +1,42 @@
-- hosts: all
-  vars:
-    - user: 'cloudru'
+- name: Add user with a specific ssh key
+  hosts: all
   remote_user: root
-  gather_facts: no
-
+  vars:
+    users:
+      - 'cloudru'
   tasks:
-  - name: Add a new user
-    user:
-      name: "{{ item }}"
-      password: {{ encrypted_password }}
-    with_items: "{{ users }}"
+    - name: Create a new user
+      ansible.builtin.user:
+        name: "{{ item }}"
+        password: "{{ encrypted_password }}"
+      with_items: "{{ users }}"
 
-  - name: Enable Pubkey Authentication
-    lineinfile:
-      path: /etc/ssh/sshd_config
-      regexp: '^PubkeyAuthentication'
-      line: 'PubkeyAuthentication yes'
-      state: present
-    notify:
-      - restart ssh
+    - name: Set authorized key taken from file
+      ansible.posix.authorized_key:
+        user: "{{ item }}"
+        key: "{{ lookup('file', item + '.key.pub') }}"
+      with_items: "{{ users }}"
 
-  - name: Disable Root Login
-    lineinfile:
-      path: /etc/ssh/sshd_config
-      regexp: '^PermitRootLogin'
-      line: 'PermitRootLogin no'
-      state: present
-    notify:
-       - restart ssh
+    - name: Enable Pubkey Authentication
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^PubkeyAuthentication'
+        line: 'PubkeyAuthentication yes'
+        state: present
+      notify:
+        - Restart sshd
 
-  - name: Add public keys for the new user
-    authorized_key:
-      user: "{{ item }}"
-      key: "{{ lookup('file', item + '.key.pub') }}"
-    with_items: "{{ users }}"
-
+    - name: Disable Root Login
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^PermitRootLogin'
+        line: 'PermitRootLogin no'
+        state: present
+      notify:
+        - Restart sshd
 
   handlers:
-  - name: restart ssh
-    service:
-      name=sshd
-      state=restarted
+    - name: Restart sshd
+      ansible.builtin.service:
+        name: sshd
+        state: restarted
