@@ -1,8 +1,6 @@
-# Необходимо написать Dockerfile для полученного приложения 
-# в соответствии с принятыми в сообществе best-practice.
-
 # docker build -f Dockerfile -t http-app:latest .
-# docker run -p 5001:8000 http-app
+# docker run -p 8001:8000 http-app
+# docker build -t http-app-img ./app
 
 FROM Python:3.11.3
 
