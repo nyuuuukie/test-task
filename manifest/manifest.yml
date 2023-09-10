@@ -51,14 +51,13 @@ spec:
           fieldRef:
             fieldPath: metadata.uid
         livenessProbe:
+          tcpSocket:
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 20
+        readinessProbe:
           httpGet:
             path: /health
             port: 8000
           initialDelaySeconds: 5
-          periodSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 8000
-          initialDelaySeconds: 5
-          periodSeconds: 10
+          periodSeconds: 20
