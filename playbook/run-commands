@@ -6,7 +6,7 @@
 ansible-playbook playbook/add-user.yml --ask-become-pass
 
 # If you don't and you want to use password authentication for SSH use this:
-ansible-playbook add-user.yml --ask-pass --ask-become-pass
+ansible-playbook playbook/add-user.yml --ask-pass --ask-become-pass
 
 # You will probably face this error:
 FAILED! => {"msg": "to use the 'ssh' connection type with passwords or pkcs11_provider, you must install the sshpass program"}
