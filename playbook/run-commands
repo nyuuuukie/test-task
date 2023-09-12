@@ -1,0 +1,15 @@
+# My ansible hosts file looked like this:
+# [ubuntu-server]
+# 192.168.64.14 ansible_user=server
+
+# I used this command as I had pubkey for user 'server'
+ansible-playbook playbook/add-user.yml --ask-become-pass
+
+# If you don't and you want to use password authentication for SSH use this:
+ansible-playbook add-user.yml --ask-pass --ask-become-pass
+
+# You will probably face this error:
+FAILED! => {"msg": "to use the 'ssh' connection type with passwords or pkcs11_provider, you must install the sshpass program"}
+
+# In this case you need to install sshpass first and run it and then run the playbook again.
+sshpass -p supersecretpass ssh server@192.168.64.14

@@ -1,0 +1,7 @@
+{
+    "users": [
+        {
+            "username": "cloudru", "pswd_hash_path": "cloudru.pass.hash", "pubkey_path": "cloudru.key.pub"
+        }
+    ]
+}
