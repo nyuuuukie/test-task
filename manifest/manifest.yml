@@ -1,8 +1,8 @@
 # Написать манифест для запуска приложения в Kubernetes:
 # 
-# [o] В отдельном неймспейсе в виде Deployment
-# [o] C 3 репликами
-# [o] Cервисом типа ClusterIP (default type)
+# [o] В отдельном неймспейсе 
+# [o] Deployment с 3 репликами
+# [o] Cервис типа ClusterIP (default type)
 # [o] Реализовать readiness- и liveness- пробы. 
 # [o] В переменную UUID должен подставляться уникальный идентификатор пода в кластере.
 
@@ -40,9 +40,9 @@ spec:
         app: http-app
     spec:
       containers:
-      - name: http-app
-        image: http-app-img
-        imagePullPolicy: Never
+      - name: app-container
+        image: nyuuuukie/test-task-app:v1
+        imagePullPolicy: Always
         ports:
         - containerPort: 8000
         env:
