@@ -1,0 +1,7 @@
+# docker build -f Dockerfile -t http-app .
+# docker run --name app-cont -p 127.0.0.1:8888:8000 http-app
+# docker exec -it app-cont sh
+
+# docker stop $(docker ps -aq)
+# docker rm $(docker ps -aq)
+# docker rmi $(docker images -aq)

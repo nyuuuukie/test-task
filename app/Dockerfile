@@ -1,16 +1,20 @@
-# docker build -f Dockerfile -t http-app:latest .
-# docker run -p 8001:8000 http-app
-# docker build -t http-app-img ./app
-
-FROM Python:3.11.3
+FROM python:3.11.3-alpine
 
 LABEL Maintainer='Ilnur T.'
 
-RUN mkdir /app
-WORKDIR /app
-ADD app.py /app/
+RUN apk add --no-cache tini
+
+RUN adduser -D runner
+
+RUN mkdir -p /home/runner/app/ && chown -R runner:runner /home/runner/app
+WORKDIR /home/runner/app
+
+USER runner
+
+COPY --chown=runner:runner ./app.py ./app.py
 
 EXPOSE 8000
 
-ENTRYPOINT [ '/sbin/tini', '--', 'python3' ]
-CMD [ './app.py' ]
+ENTRYPOINT [ "/sbin/tini", "--" ]
+
+CMD [ "python3", "./app.py" ]
