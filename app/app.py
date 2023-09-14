@@ -45,6 +45,15 @@ class simpleServerHandler(BaseHTTPRequestHandler):
 
     def req_health(self):
         self.send_response(200)
+        self.send_header('Content-type','text/plain')
+        self.end_headers()
+        self.wfile.write("\n\n")
+
+    def req_root(self):
+        self.send_response(200)
+        self.send_header('Content-type','text/plain')
+        self.end_headers()
+        self.wfile.write("\n\n")
 
     def req_unknown(self):
         self.send_response(400, "Bad request")
@@ -52,7 +61,9 @@ class simpleServerHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
 
-        if self.path == '/hostname':
+        if self.path == '/':
+            self.req_root()
+        elif self.path == '/hostname':
             self.req_hostname()
         elif self.path == '/author':
             self.req_author()
