@@ -1,12 +1,10 @@
 FROM python:3.11.3-alpine
 
-LABEL Maintainer='Ilnur T.'
+RUN apk add --no-cache tini && \
+    adduser -D runner && \
+    mkdir -p /home/runner/app/ && \
+    chown -R runner:runner /home/runner/app
 
-RUN apk add --no-cache tini
-
-RUN adduser -D runner
-
-RUN mkdir -p /home/runner/app/ && chown -R runner:runner /home/runner/app
 WORKDIR /home/runner/app
 
 USER runner
