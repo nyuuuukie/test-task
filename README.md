@@ -24,6 +24,12 @@
 ### Dockerfile
 Написать Dockerfile для приложения в соответствии с best-practice.
 
+Было создано два image, которые были выгружены на DockerHub, откуда их забирает kubernetes.
+
+Первый image для машин с архитектурой `AMD64`, она же `x86_64`.
+
+Второй image для машин с архитектурой `ARM64`, она же `AArch64`.
+
 ### Kubernetes manifest
 Написать манифест для запуска приложения в Kubernetes. <br>
 
