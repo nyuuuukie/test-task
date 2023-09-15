@@ -25,6 +25,10 @@ spec:
             valueFrom:
             fieldRef:
               fieldPath: metadata.uid
+          - name: AUTHOR
+            value: nyuuuukie
+          - name: PORT
+            value: 8000
           livenessProbe:
             tcpSocket:
               port: 8000
