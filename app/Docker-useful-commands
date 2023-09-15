@@ -1,8 +1,16 @@
-# docker build -f Dockerfile -t http-app-img .
-# docker run --name app-cont -p 127.0.0.1:8888:8000 http-app-img
-# docker exec -it app-cont sh
-# docker tag cb30bc843c17 nyuuuukie/test-task-app:linux-amd64-v1.0
-# docker push nyuuuukie/test-task-app:linux-amd64-v1.0
-# docker stop $(docker ps -aq)
-# docker rm $(docker ps -aq)
-# docker rmi $(docker images -aq)
+
+# Build and run
+docker build -f Dockerfile -t http-app-img .
+docker run --name app-cont -p 127.0.0.1:8888:8000 http-app-img
+
+# Enter inside the container
+docker exec -it app-cont sh
+
+# Push the image to the registry
+docker tag cb30bc843c17 nyuuuukie/test-task-app:linux-amd64-v1.0
+docker push nyuuuukie/test-task-app:linux-amd64-v1.0
+
+# Stop and full cleanup
+docker stop $(docker ps -aq)
+docker rm $(docker ps -aq)
+docker rmi $(docker images -aq)
