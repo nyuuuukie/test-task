@@ -1,0 +1,10 @@
+apiVersion: v2
+name: http-app-helm-chart
+description: This is a chart for k8s
+type: application
+version: 0.1.0
+appVersion: 1.0
+
+maintainers:
+  - name: 'Ilnur Timergaliev'
+    email: 'timergaliev.code@gmail.com'

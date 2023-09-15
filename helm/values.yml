@@ -1,0 +1,14 @@
+
+container:
+  image-x86_64: nyuuuukie/test-task-app:linux-amd64-v1.0
+  image-aarch64: nyuuuukie/test-task-app:linux-arm64-v1.0
+
+replicasCount: 3
+
+namespace: http-app-namespace
+
+appName: http-app
+
+env:
+  author: nyuuuukie
+  port: 8000

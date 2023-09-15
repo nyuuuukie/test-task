@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-deployment
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Release.Name }}-deployment
+spec:
+  replicas: {{ .Values.replicasCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appName }}
+    spec:
+      containers:
+        - name: app-container
+          image: {{ .Values.container.image-x86_64 }}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: {{ .Values.env.port }}
+          env:
+          - name: UUID
+            valueFrom:
+            fieldRef:
+              fieldPath: metadata.uid
+          - name: AUTHOR
+            value: {{ .Values.env.author }}
+          - name: PORT
+            value: {{ .Values.env.port }}
+          livenessProbe:
+            tcpSocket:
+              port: {{ .Values.env.port }}
+            initialDelaySeconds: 5
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.env.port }}
+            initialDelaySeconds: 5
+            periodSeconds: 20
