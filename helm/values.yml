@@ -1,7 +1,7 @@
 
 container:
-  image-x86_64: nyuuuukie/test-task-app:linux-amd64-v1.0
-  image-aarch64: nyuuuukie/test-task-app:linux-arm64-v1.0
+  # image: nyuuuukie/test-task-app:linux-amd64-v1.0
+  image: nyuuuukie/test-task-app:linux-arm64-v1.0
 
 replicasCount: 3
 

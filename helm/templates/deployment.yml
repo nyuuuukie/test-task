@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app-container
-          image: {{ .Values.container.image-x86_64 }}
+          image: {{ .Values.container.image }}
           imagePullPolicy: Always
           ports:
             - containerPort: {{ .Values.env.port }}
