@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -20,24 +21,24 @@ spec:
           image: {{ .Values.container.image }}
           imagePullPolicy: Always
           ports:
-            - containerPort: {{ .Values.env.port }}
+            - containerPort: {{ .Values.port }}
           env:
           - name: UUID
             valueFrom:
-            fieldRef:
-              fieldPath: metadata.uid
-          - name: AUTHOR
-            value: {{ .Values.env.author }}
+              fieldRef:
+                fieldPath: metadata.uid
           - name: PORT
-            value: {{ .Values.env.port }}
+            value: {{ .Values.port | quote }}
+          - name: AUTHOR
+            value: {{ .Values.author }}
           livenessProbe:
             tcpSocket:
-              port: {{ .Values.env.port }}
+              port: {{ .Values.port }}
             initialDelaySeconds: 5
             periodSeconds: 20
           readinessProbe:
             httpGet:
               path: /health
-              port: {{ .Values.env.port }}
+              port: {{ .Values.port }}
             initialDelaySeconds: 5
             periodSeconds: 20

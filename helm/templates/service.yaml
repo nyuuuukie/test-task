@@ -9,5 +9,5 @@ spec:
   ports:
     - name: http-app-port
       # port could be set smth other, but not the targetPort
-      port: {{ .Values.env.port }}
-      targetPort: {{ .Values.env.port }}
+      port: {{ .Values.port }}
+      targetPort: {{ .Values.port }}

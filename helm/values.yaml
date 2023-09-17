@@ -9,6 +9,6 @@ namespace: http-app-namespace
 
 appName: http-app
 
-env:
-  author: nyuuuukie
-  port: 8000
+port: 8000
+
+author: nyuuuukie
