@@ -43,11 +43,14 @@
 Для проверки работоспособности внутри, удобно использовать `curl`:
 ```bash
 # Чтобы узнать ClusterIP
-kubectl get svc
+$ kubectl get svc
 
-curl "<cluster-ip>:<service-port>/author"
+# Попадаем внутрь VM (кластер поднимался локально на minikube)
+$ minikube ssh
+
+$ curl "<cluster-ip>:<service-port>/author"
 # или напрямую к поду:
-сurl "<pod-ip>:<pod-port>/id"
+$ сurl "<pod-ip>:<pod-port>/id"
 ```
 
 > Для доступа к кластеру извне, необходимо либо сменить тип сервиса на `nodePort` / `LoadBalancer`, либо использовать Ingress.
